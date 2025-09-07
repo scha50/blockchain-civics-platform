@@ -13,8 +13,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x445df0ac"
+      "type": "function"
     },
     {
       "constant": true,
@@ -28,8 +27,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x8da5cb5b"
+      "type": "function"
     },
     {
       "constant": false,
@@ -43,8 +41,7 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xfdacd576"
+      "type": "function"
     }
   ],
   "bytecode": "0x608060405260008054600160a060020a0319163317905534801561002257600080fd5b506101eb806100326000396000f3fe6080604052600436106100565763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663445df0ac811461005b5780638da5cb5b14610082578063fdacd576146100c0575b600080fd5b34801561006757600080fd5b506100706100ec565b60408051918252519081900360200190f35b34801561008e57600080fd5b506100976100f2565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b3480156100cc57600080fd5b506100ea600480360360208110156100e357600080fd5b503561010e565b005b60015481565b60005473ffffffffffffffffffffffffffffffffffffffff1681565b60005473ffffffffffffffffffffffffffffffffffffffff1633146101ba57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152603360248201527f546869732066756e6374696f6e206973207265737472696374656420746f207460448201527f686520636f6e74726163742773206f776e657200000000000000000000000000606482015290519081900360840190fd5b60015556fea165627a7a72305820f2cab36728b2638b7bbaa38e45d4312465d06a5024013620f3f2366e220dacaf0029",
@@ -869,12 +866,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x30DABB53aDe165d08bAaDb6b63A2D993883577CE",
-      "transactionHash": "0x51528e9a3db3a76aea7b4006755da623171b13b78bd5569c1e85bc6b6eb6e33d"
+      "address": "0xcEC28fAd71342E32DE9BDa106Ba0e19041217cF8",
+      "transactionHash": "0xb4c5b1e5daab0a93846621fbeae588f23bad204b18a8b1694492a24ae61f3f13"
     }
   },
-  "schemaVersion": "3.0.1",
-  "updatedAt": "2025-08-19T19:40:03.848Z",
+  "schemaVersion": "3.4.16",
+  "updatedAt": "2025-09-07T20:29:07.448Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {}
   },

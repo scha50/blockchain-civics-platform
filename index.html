@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civics</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #fafafa;
+            color: #2d2d2d;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            font-weight: 300;
+        }
+        
+        .status {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .btn {
+            background: #2d2d2d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background: #1a1a1a;
+        }
+        
+        .btn-secondary {
+            background: #f5d5ae;
+            color: #2d2d2d;
+            padding: 8px 16px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background: #f0c895;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 30px;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: #1a1a1a;
+            border-bottom-color: #f5d5ae;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin: 0;
+        }
+        
+        .card-meta {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .card-content {
+            margin-bottom: 16px;
+            color: #4d4d4d;
+        }
+        
+        .vote-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .vote-count {
+            background: #f5f5f5;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 2px;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #1a1a1a;
+            font-size: 13px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e5e5;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            border-radius: 2px;
+            background: #fff;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f5d5ae;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2d2d2d;
+            color: white;
+            padding: 16px 20px;
+            border-radius: 2px;
+            display: none;
+            z-index: 1000;
+            font-size: 13px;
+        }
+        
+        .notification.error {
+            background: #d73027;
+        }
+        
+        .notification.success {
+            background: #1a9850;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 11px;
+            border-radius: 2px;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: #e8f5e8;
+            color: #1a9850;
+        }
+        
+        .status-closed {
+            background: #f5e5e5;
+            color: #d73027;
+        }
+        
+        .status-voted {
+            background: #f5d5ae;
+            color: #8b6914;
+        }
+        
+        .escalated {
+            border-left: 3px solid #f5d5ae;
+        }
+        
+        .escalated .card-title::before {
+            content: "ESCALATED: ";
+            color: #8b6914;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CivicPulse</h1>
+            <p class="subtitle">Blockchain Civics Platform Powered By Ethereum - give anonymous government feedback & vote on issues</p>
+        </header>
+        
+        <div class="status" id="connectionStatus">
+            <button id="connectWallet" class="btn">Connect Wallet</button>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="proposals">Proposals</button>
+            <button class="tab-btn" data-tab="issues">Issues</button>
+            <button class="tab-btn" data-tab="create">Create</button>
+        </div>
+        
+        <div id="proposals" class="tab-content active">
+            <div id="proposalsList">
+                <div class="loading">Loading proposals...</div>
+            </div>
+        </div>
+        
+        <div id="issues" class="tab-content">
+            <form id="issueForm" style="margin-bottom: 40px;">
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option value="infrastructure">Infrastructure</option>
+                        <option value="safety">Safety</option>
+                        <option value="environment">Environment</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" placeholder="Describe the issue..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="Address or area" required>
+                </div>
+                <button type="submit" class="btn">Report Issue</button>
+            </form>
+            
+            <div id="issuesList">
+                <div class="loading">Loading issues...</div>
+            </div>
+        </div>
+        
+        <div id="create" class="tab-content">
+            <form id="proposalForm">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" placeholder="Proposal title" required>
+                </div>
+                <div class="form-group">
+                    <label for="proposalDesc">Description</label>
+                    <textarea id="proposalDesc" placeholder="Proposal details..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration</label>
+                    <select id="duration" required>
+                        <option value="604800">1 Week</option>
+                        <option value="1209600">2 Weeks</option>
+                        <option value="2592000">1 Month</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Create Proposal</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    <script>
+        class CivicPulseApp {
+            constructor() {
+                this.web3 = null;
+                this.contract = null;
+                this.account = null;
+                this.citizenHash = null;
+                this.contractAddress = null;
+                this.contractABI = null;
+                this.init();
+            }
+            
+            async init() {
+                try {
+                    await this.initWeb3();
+                    await this.loadContract();
+                    this.initEventListeners();
+                    
+                    // Check if already connected
+                    if (window.ethereum && window.ethereum.selectedAddress) {
+                        await this.connectWallet();
+                    } else {
+                        await this.loadData();
+                    }
+                } catch (error) {
+                    console.error('Initialization failed:', error);
+                    this.showNotification('Initialization failed. Please refresh the page.', 'error');
+                }
+            }
+            
+            async loadContract() {
+                try {
+                    // Use the contract address from the deployment
+                    this.contractAddress = '0xa38d6583E90e9e21f300CF1d7314F8Fe409d1a17';
+                    
+                    // Use the ABI directly from the build file
+                    this.contractABI = [
+                        {
+                            "inputs": [
+                                {"internalType":"string","name":"_title","type":"string"},
+                                {"internalType":"string","name":"_description","type":"string"},
+                                {"internalType":"uint256","name":"_duration","type":"uint256"}
+                            ],
+                            "name": "createProposal",
+                            "outputs": [],
+                            "stateMutability": "nonpayable",
+                            "type": "function"
+                        },
+                        {
+                            "inputs": [
+                                {"internalType":"string","name":"_category","type":"string"},
+                                {"internalType":"string","name":"_description","type":"string"},
+                                {"internalType":"string","name":"_location","type":"string"},
+                                {"internalType":"bytes32","name":"_citizenHash","type":"bytes32"}
+                            ],
+                            "name": "reportIssue",
+                            "outputs": [],
+                            "stateMutability": "nonpayable",
+                            "type": "function"
+                        },
+                        {
+                            "inputs": [{"internalType":"bytes32","name":"citizenHash","type":"bytes32"}],
+                            "name": "registerCitizen",
+                            "outputs": [],
+                            "stateMutability": "nonpayable",
+                            "type": "function"
+                        },
+                        {
+                            "inputs": [{"internalType":"bytes32","name":"","type":"bytes32"}],
+                            "name": "registeredCitizens",
+                            "outputs": [{"internalType":"bool","name":"","type":"bool"}],
+                            "stateMutability": "view",
+                            "type": "function"
+                        },
+                        {
+                            "inputs": [],
+                            "name": "proposalCount",
+                            "outputs": [{"internalType":"uint256","name":"","type":"uint256"}],
+                            "stateMutability": "view",
+                            "type": "function"
+                        },
+                        {
+                            "inputs": [{"internalType":"uint256","name":"","type":"uint256"}],
+                            "name": "proposals",
+                            "outputs": [
+                                {"internalType":"uint256","name":"id","type":"uint256"},
+                                {"internalType":"string","name":"title","type":"string"},
+                                {"internalType":"string","name":"description","type":"string"},
+                                {"internalType":"uint256","name":"yesVotes","type":"uint256"},
+                                {"internalType":"uint256","name":"noVotes","type":"uint256"},
+                                {"internalType":"uint256","name":"deadline","type":"uint256"},
+                                {"internalType":"bool","name":"active","type":"bool"},
+                                {"internalType":"address","name":"creator","type":"address"}
+                            ],
+                            "stateMutability": "view",
+                            "type": "function"
+                        },
+                        {
+                            "inputs": [{"internalType":"uint256","name":"_proposalId","type":"uint256"}],
+                            "name": "getProposal",
+                            "outputs": [
+                                {"internalType":"uint256","name":"id","type":"uint256"},
+                                {"internalType":"string","name":"title","type":"string"},
+                                {"internalType":"string","name":"description","type":"string"},
+                                {"internalType":"uint256","name":"yesVotes","type":"uint256"},
+                                {"internalType":"uint256","name":"noVotes","type":"uint256"},
+                                {"internalType":"uint256","name":"deadline","type":"uint256"},
+                                {"internalType":"bool","name":"active","type":"bool"},
+                                {"internalType":"address","name":"creator","type":"address"}
+                            ],
+                            "stateMutability": "view",
+                            "type": "function"
+                        }
+                    ];
+                    
+                    if (this.web3 && this.contractAddress && this.contractABI) {
+                        this.contract = new this.web3.eth.Contract(this.contractABI, this.contractAddress);
+                        console.log('Contract initialized:', this.contract);
+                    }
+                } catch (error) {
+                    console.error('Contract load failed:', error);
+                    this.showNotification('Failed to load contract. Please check your connection and refresh the page.', 'error');
+                }
+            }
+            
+            async initWeb3() {
+                try {
+                    if (window.ethereum) {
+                        this.web3 = new Web3(window.ethereum);
+                        await window.ethereum.enable();
+                        return true;
+                    } else {
+                        this.showNotification('Please install MetaMask to use this application', 'error');
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Web3 initialization failed:', error);
+                    this.showNotification('Failed to initialize Web3', 'error');
+                    return false;
+                }
+            }
+            
+            initEventListeners() {
+                document.getElementById('connectWallet').addEventListener('click', () => {
+                    this.connectWallet();
+                });
+                
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.switchTab(e.target.dataset.tab);
+                    });
+                });
+                
+                document.getElementById('proposalForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleCreateProposal();
+                });
+                
+                document.getElementById('issueForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleReportIssue();
+                });
+            }
+            
+            async isCitizenRegistered() {
+                if (!this.account || !this.citizenHash) return false;
+                try {
+                    return await this.contract.methods.registeredCitizens(this.citizenHash).call();
+                } catch (error) {
+                    console.error('Error checking citizen registration:', error);
+                    return false;
+                }
+            }
+            
+            async registerCitizen() {
+                if (!this.account) {
+                    this.showNotification('Please connect your wallet first', 'error');
+                    return false;
+                }
+                
+                try {
+                    this.citizenHash = this.web3.utils.keccak256(
+                        this.account + "civic_pulse_salt"
+                    );
+                    
+                    await this.contract.methods.registerCitizen(this.citizenHash)
+                        .send({ from: this.account });
+                    
+                    this.showNotification('Successfully registered as citizen', 'success');
+                    return true;
+                } catch (error) {
+                    console.error('Registration failed:', error);
+                    this.showNotification('Registration failed: ' + (error.message || 'Unknown error'), 'error');
+                    return false;
+                }
+            }
+            
+            async connectWallet() {
+                try {
+                    const accounts = await window.ethereum.request({
+                        method: 'eth_requestAccounts'
+                    });
+                    this.account = accounts[0];
+                    
+                    // Generate citizen hash
+                    this.citizenHash = this.web3.utils.keccak256(
+                        this.account + "civic_pulse_salt"
+                    );
+                    
+                    // Check if already registered
+                    const isRegistered = await this.isCitizenRegistered();
+                    
+                    if (!isRegistered) {
+                        await this.registerCitizen();
+                    }
+                    
+                    document.getElementById('connectionStatus').innerHTML = `
+                        <div style="color: #1a9850; font-size: 13px;">
+                            Connected: ${this.account.substring(0, 8)}...${this.account.substring(38)}
+                            <br>
+                            Status: ${isRegistered ? 'Registered Citizen' : 'Registration in progress...'}
+                        </div>
+                    `;
+                    
+                    this.showNotification('Connected successfully', 'success');
+                    await this.loadData();
+                } catch (error) {
+                    console.error('Connection failed:', error);
+                    this.showNotification('Connection failed: ' + (error.message || 'Unknown error'), 'error');
+                }
+            }
+            
+            switchTab(tabName) {
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+                
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(tabName).classList.add('active');
+            }
+            
+            async loadData() {
+                if (!this.contract) return;
+                await Promise.all([
+                    this.loadProposals(),
+                    this.loadIssues()
+                ]);
+            }
+            
+            async loadProposals() {
+                try {
+                    const proposalCount = await this.contract.methods.proposalCount().call();
+                    const proposalsList = document.getElementById('proposalsList');
+                    
+                    if (proposalCount == 0) {
+                        proposalsList.innerHTML = '<div class="loading">No proposals</div>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    for (let i = 1; i <= proposalCount; i++) {
+                        const proposal = await this.contract.methods.getProposal(i).call();
+                        
+                        // Skip deleted proposals
+                        if (proposal.deleted) continue;
+                        
+                        const totalVotes = parseInt(proposal.yesVotes) + parseInt(proposal.noVotes);
+                        const deadline = new Date(proposal.deadline * 1000);
+                        const isActive = proposal.active && Date.now() < deadline.getTime();
+                        const isEscalated = totalVotes >= 100;
+                        const isCreator = proposal.creator.toLowerCase() === this.account?.toLowerCase();
+                        
+                        let hasVoted = false;
+                        if (this.citizenHash) {
+                            hasVoted = await this.contract.methods.hasVotedOnProposal(i, this.citizenHash).call();
+                        }
+                        
+                        html += `
+                            <div class="card ${isEscalated ? 'escalated' : ''}">
+                                <div class="card-header">
+                                    <h3 class="card-title">${proposal.title}</h3>
+                                    <div class="card-meta">
+                                        <span class="status-badge ${isActive ? 'status-active' : 'status-closed'}">
+                                            ${isActive ? 'ACTIVE' : 'CLOSED'}
+                                        </span>
+                                        <br>
+                                        <small>${deadline.toLocaleDateString()}</small>
+                                        ${isCreator && totalVotes === 0 ? `<br><button class="btn-secondary" onclick="app.deleteProposal(${i})" style="background: #d73027; color: white; margin-top: 8px;">Delete</button>` : ''}
+                                    </div>
+                                </div>
+                                <div class="card-content">${proposal.description}</div>
+                                <div class="vote-section">
+                                    <span class="vote-count">Yes: ${proposal.yesVotes}</span>
+                                    <span class="vote-count">No: ${proposal.noVotes}</span>
+                                    ${isActive && this.account && !hasVoted ? `
+                                        <button class="btn-secondary" onclick="app.vote(${i}, true)">Vote Yes</button>
+                                        <button class="btn-secondary" onclick="app.vote(${i}, false)">Vote No</button>
+                                    ` : hasVoted ? '<span class="status-badge status-voted">VOTED</span>' : ''}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    proposalsList.innerHTML = html || '<div class="loading">No active proposals</div>';
+                } catch (error) {
+                    console.error('Load proposals failed:', error);
+                }
+            }
+            
+            async loadIssues() {
+                try {
+                    const issueCount = await this.contract.methods.issueCount().call();
+                    const issuesList = document.getElementById('issuesList');
+                    
+                    if (issueCount == 0) {
+                        issuesList.innerHTML = '<div class="loading">No issues</div>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    for (let i = 1; i <= issueCount; i++) {
+                        const issue = await this.contract.methods.getIssue(i).call();
+                        
+                        // Skip deleted issues
+                        if (issue.deleted) continue;
+                        
+                        const timestamp = new Date(issue.timestamp * 1000);
+                        const canDelete = issue.upvotes == 0;
+                        
+                        let hasUpvoted = false;
+                        if (this.citizenHash) {
+                            hasUpvoted = await this.contract.methods.hasUpvotedIssue(i, this.citizenHash).call();
+                        }
+                        
+                        html += `
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">${issue.category.toUpperCase()}</h4>
+                                    <div class="card-meta">
+                                        ${timestamp.toLocaleDateString()}
+                                        ${canDelete && this.account ? `<br><button class="btn-secondary" onclick="app.deleteIssue(${i})" style="background: #d73027; color: white; margin-top: 8px;">Delete</button>` : ''}
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <p><strong>Location:</strong> ${issue.location}</p>
+                                    <p>${issue.description}</p>
+                                </div>
+                                <div class="vote-section">
+                                    <span class="vote-count">Upvotes: ${issue.upvotes}</span>
+                                    ${this.account && !hasUpvoted ? `
+                                        <button class="btn-secondary" onclick="app.upvoteIssue(${i})">Upvote</button>
+                                    ` : hasUpvoted ? '<span class="status-badge status-voted">UPVOTED</span>' : ''}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    issuesList.innerHTML = html || '<div class="loading">No active issues</div>';
+                } catch (error) {
+                    console.error('Load issues failed:', error);
+                }
+            }
+            
+            async vote(proposalId, vote) {
+                if (!this.account) {
+                    this.showNotification('Connect wallet first', 'error');
+                    return;
+                }
+                
+                try {
+                    await this.contract.methods.vote(proposalId, vote, this.citizenHash)
+                        .send({ from: this.account });
+                    
+                    this.showNotification('Vote cast', 'success');
+                    await this.loadProposals();
+                } catch (error) {
+                    console.error('Vote failed:', error);
+                    this.showNotification('Vote failed', 'error');
+                }
+            }
+            
+            async upvoteIssue(issueId) {
+                if (!this.account) {
+                    this.showNotification('Connect wallet first', 'error');
+                    return;
+                }
+                
+                try {
+                    await this.contract.methods.upvoteIssue(issueId, this.citizenHash)
+                        .send({ from: this.account });
+                    
+                    this.showNotification('Upvoted', 'success');
+                    await this.loadIssues();
+                } catch (error) {
+                    console.error('Upvote failed:', error);
+                    this.showNotification('Upvote failed', 'error');
+                }
+            }
+            
+            async handleCreateProposal() {
+                if (!this.account) {
+                    this.showNotification('Please connect your wallet first', 'error');
+                    return;
+                }
+                
+                // Check if registered as citizen
+                const isRegistered = await this.isCitizenRegistered();
+                if (!isRegistered) {
+                    const shouldRegister = confirm('You need to register as a citizen first. Register now?');
+                    if (shouldRegister) {
+                        const success = await this.registerCitizen();
+                        if (!success) return;
+                    } else {
+                        return;
+                    }
+                }
+                
+                const title = document.getElementById('title').value;
+                const description = document.getElementById('proposalDesc').value;
+                const duration = document.getElementById('duration').value;
+                
+                try {
+                    this.showNotification('Creating proposal...', 'info');
+                    await this.contract.methods.createProposal(title, description, duration)
+                        .send({ from: this.account });
+                    
+                    this.showNotification('Proposal created successfully!', 'success');
+                    document.getElementById('proposalForm').reset();
+                    this.switchTab('proposals');
+                    await this.loadProposals();
+                } catch (error) {
+                    console.error('Create proposal failed:', error);
+                    let errorMessage = 'Failed to create proposal';
+                    if (error.message.includes('User denied transaction')) {
+                        errorMessage = 'Transaction was rejected';
+                    } else if (error.message.includes('not registered')) {
+                        errorMessage = 'You must be a registered citizen';
+                    }
+                    this.showNotification(errorMessage, 'error');
+                }
+            }
+            
+            async handleReportIssue() {
+                if (!this.account) {
+                    this.showNotification('Please connect your wallet first', 'error');
+                    return;
+                }
+                
+                // Check if registered as citizen
+                const isRegistered = await this.isCitizenRegistered();
+                if (!isRegistered) {
+                    const shouldRegister = confirm('You need to register as a citizen first. Register now?');
+                    if (shouldRegister) {
+                        const success = await this.registerCitizen();
+                        if (!success) return;
+                    } else {
+                        return;
+                    }
+                }
+                
+                const category = document.getElementById('category').value;
+                const description = document.getElementById('description').value;
+                const location = document.getElementById('location').value;
+                
+                try {
+                    this.showNotification('Reporting issue...', 'info');
+                    await this.contract.methods.reportIssue(category, description, location, this.citizenHash)
+                        .send({ from: this.account });
+                    
+                    this.showNotification('Issue reported successfully!', 'success');
+                    document.getElementById('issueForm').reset();
+                    await this.loadIssues();
+                } catch (error) {
+                    console.error('Report issue failed:', error);
+                    let errorMessage = 'Failed to report issue';
+                    if (error.message.includes('User denied transaction')) {
+                        errorMessage = 'Transaction was rejected';
+                    } else if (error.message.includes('not registered')) {
+                        errorMessage = 'You must be a registered citizen';
+                    }
+                    this.showNotification(errorMessage, 'error');
+                }
+            }
+            
+            showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.style.display = 'block';
+                
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            }
+            
+            // Delete functions
+            async deleteProposal(proposalId) {
+                if (!this.account) {
+                    this.showNotification('Connect wallet first', 'error');
+                    return;
+                }
+                
+                if (!confirm('Are you sure you want to delete this proposal?')) {
+                    return;
+                }
+                
+                try {
+                    await this.contract.methods.deleteMyProposal(proposalId)
+                        .send({ from: this.account });
+                    
+                    this.showNotification('Proposal deleted', 'success');
+                    await this.loadProposals();
+                } catch (error) {
+                    console.error('Delete failed:', error);
+                    this.showNotification('Delete failed', 'error');
+                }
+            }
+            
+            async deleteIssue(issueId) {
+                if (!this.account) {
+                    this.showNotification('Connect wallet first', 'error');
+                    return;
+                }
+                
+                if (!confirm('Are you sure you want to delete this issue?')) {
+                    return;
+                }
+                
+                try {
+                    await this.contract.methods.deleteMyIssue(issueId, this.citizenHash)
+                        .send({ from: this.account });
+                    
+                    this.showNotification('Issue deleted', 'success');
+                    await this.loadIssues();
+                } catch (error) {
+                    console.error('Delete failed:', error);
+                    this.showNotification('Delete failed', 'error');
+                }
+            }
+        }
+        
+        const app = new CivicPulseApp();
+    </script>
+</body>
+</html>
